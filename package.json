@@ -1,0 +1,19 @@
+{
+  "name": "1st-year-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm run dev\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "react-dropzone": "^14.2.3",
+    "xlsx": "^0.18.5"
+  }
+}
