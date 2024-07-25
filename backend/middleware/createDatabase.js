@@ -44,7 +44,6 @@ const createTable = async () => {
     )`;
 
     const createTableQuery2 = `CREATE TABLE IF NOT EXISTS studentData2024(
-        UID VARCHAR(20) UNIQUE,
         admission_number VARCHAR(8) NOT NULL PRIMARY KEY,
         admission_category VARCHAR(255) ,
         school_name VARCHAR(255) ,
@@ -60,14 +59,12 @@ const createTable = async () => {
         state VARCHAR(255),
         pincode VARCHAR(10),
         country VARCHAR(255),
-        contact_number_student VARCHAR(15),
-        parent_contact_number VARCHAR(15),
+        contact_number_student VARCHAR(25),
+        parent_contact_number VARCHAR(25),
         email_id VARCHAR(255),
-        email_id_parent VARCHAR(255),
         aadhar VARCHAR(255),
-        ABCID VARCHAR(255),
         date_of_birth DATE,
-        entry_type VARCHAR(255)
+        pending VARCHAR(1000)
     )`;
 
     try {

@@ -1,7 +1,7 @@
 const app = require('./app');
 const { checkConnection } = require('./middleware/createDatabase');
 const { createAdmission, getAdmission, updateAdmission, deleteAdmission, isAdmissionNumberUnique } = require('./middleware/databaseCRUD');
-const { readCSV } = require('./middleware/studentDataBase');
+const { readCSV, insertOrUpdateData, fetchDataByAdmissionNumber } = require('./middleware/studentDataBase');
 
 
 
@@ -18,8 +18,15 @@ app.get('/check/:admission_number',isAdmissionNumberUnique)
 
 app.post('/addData',async (req,res,next)=>{
     const data = await readCSV(req.body.data);
-    res.send(data);
+    const resp = await insertOrUpdateData(data);
+    res.send(resp);
 });
+
+app.get('/checkData/:regNo',async (req,res,next)=>{
+    const reg = req.params.regNo;
+    const data = await fetchDataByAdmissionNumber(reg);
+    res.send(data);
+})
 
 const PORT = 1000;
 

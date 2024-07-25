@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TempTextInput from './TempTextInput';
 import axios from 'axios';
 import { FormDataContext, initialData } from '../context/FormDataContext';
@@ -30,7 +30,10 @@ export default function InputForm({ setDisplay }) {
   const areAllValuesEmpty = (obj) => {
     return Object.values(obj).every((value) => value === '');
   };
-
+  useEffect(()=>{
+    console.log(formData)
+  },[formData])
+  
   const areAllValuesNonEmpty = (obj) => {
     // Define keys to exclude from the non-empty check
     const excludeKeys = ['ABCID', 'aadhar', 'email_id_parent', 'parent_contact_number', 'address'];
@@ -120,14 +123,42 @@ export default function InputForm({ setDisplay }) {
     });
   };
 
-  const handleClear = () => {
-    setFormData(initialData);
-    setData(initialData);
-  };
+  const handleCheck = async() =>{
+    try{
+      const data = await axios.get(`${HOST}/checkData/${formData.admission_number}`);
+      setFormData(prevState => ({
+        ...prevState,
+        admission_number: data.admission_number || prevState.admission_number,
+        name: data.name || prevState.name,
+        father_name: data.father_name || prevState.father_name,
+        mother_name: data.mother_name || prevState.mother_name,
+        address: data.address || prevState.address,
+        city: data.city || prevState.city,
+        state: data.state || prevState.state,
+        pincode: data.pincode || prevState.pincode,
+        country: data.country || prevState.country,
+        contact_number_student: data.contact_number_student || prevState.contact_number_student,
+        parent_contact_number: data.parent_contact_number || prevState.parent_contact_number,
+        email_id: data.email_id || prevState.email_id,
+        email_id_parent: data.email_id_parent || prevState.email_id_parent,
+        date_of_birth: data.date_of_birth || prevState.date_of_birth,
+        aadhar: data.aadhar || prevState.aadhar,
+        ABCID: data.ABCID || prevState.ABCID,
+        pending: data.pending || prevState.pending
+    }));
+
+    }catch(err){
+      console.log(err);
+    }
+  }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4">
+    <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4 relative">
       <h1 className="text-2xl font-semibold">Reporting Form</h1>
+      <button
+      onClick={handleCheck}
+      className="absolute ml-[150px] items-center px-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >Check</button>
       <div className="grid grid-cols-4 gap-4"> {/* Adjusted grid to 4 columns with appropriate spacing */}
 
         {/* Row 1 */}

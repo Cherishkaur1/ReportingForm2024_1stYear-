@@ -17,18 +17,12 @@ const InsertData = () => {
         const workbook = XLSX.read(data, { type: 'array' });
         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
         const csvData = XLSX.utils.sheet_to_csv(firstSheet, { FS: '|' });
-        // console.log('CSV Data we are Getting : \n', csvData);
-        // setUploadFilePage(false);
-        // setCSVFile(csvData);
         
 
       // Send CSV data to backend using Axios
       axios.post(`${HOST}/addData`, { 'data' : csvData })
         .then(response => {
-          console.log('Data taken from CSV File :', response.data);
-          // setData(response.data);
-          // setFrontPage(false);
-          // Handle success response if needed
+          alert("Data Updated")
         })
         .catch(error => {
           console.error('Error uploading file:', error);
