@@ -43,9 +43,43 @@ const createTable = async () => {
         entry_type VARCHAR(255) NOT NULL
     )`;
 
+    const createTableQuery2 = `CREATE TABLE IF NOT EXISTS studentData2024(
+        UID VARCHAR(20) UNIQUE,
+        admission_number VARCHAR(8) NOT NULL PRIMARY KEY,
+        admission_category VARCHAR(255) ,
+        school_name VARCHAR(255) ,
+        department VARCHAR(255) ,
+        program VARCHAR(255) ,
+        program_type VARCHAR(255),
+        name VARCHAR(255),
+        father_name VARCHAR(255),
+        mother_name VARCHAR(255),
+        gender VARCHAR(10),
+        address TEXT,
+        city VARCHAR(255),
+        state VARCHAR(255),
+        pincode VARCHAR(10),
+        country VARCHAR(255),
+        contact_number_student VARCHAR(15),
+        parent_contact_number VARCHAR(15),
+        email_id VARCHAR(255),
+        email_id_parent VARCHAR(255),
+        aadhar VARCHAR(255),
+        ABCID VARCHAR(255),
+        date_of_birth DATE,
+        entry_type VARCHAR(255)
+    )`;
+
     try {
-        const [result] = await pool.query(createTableQuery);
+        await pool.query(createTableQuery);
         console.log('Table "admission2024" created or already exists');
+    } catch (err) {
+        console.error('Error creating table:', err);
+    }
+
+    try {
+        await pool.query(createTableQuery2);
+        console.log('Table "studentData2024" created or already exists');
     } catch (err) {
         console.error('Error creating table:', err);
     }
@@ -59,7 +93,7 @@ exports.checkConnection = async () => {
         connection.release(); // Release the connection back to the pool
         await createTable();
     } catch (err) {
-        console.error('Error connecting to MySQL database:', err);
+        console.error('Error connecting to MySQL database :', err);
         throw err; // Throw error to terminate application or handle appropriately
     }
 };

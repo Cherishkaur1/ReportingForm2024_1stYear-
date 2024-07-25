@@ -3,6 +3,7 @@ import TempTextInput from './TempTextInput';
 import axios from 'axios';
 import { FormDataContext, initialData } from '../context/FormDataContext';
 import DropDown from './DropDown';
+import { HOST } from '../context/Constants';
 
 export default function InputForm({ setDisplay }) {
   const [error, setError] = useState({});
@@ -58,7 +59,7 @@ export default function InputForm({ setDisplay }) {
     }
     // check Registration if it is unique Number
     try {
-      const resp = await axios.get(`http://192.168.124.197:1000/check/${formData.admission_number}`);
+      const resp = await axios.get(`${HOST}/check/${formData.admission_number}`);
       if (!resp.data.isUnique) {
         alert('Registration Number already there');
         return false;
@@ -76,7 +77,7 @@ export default function InputForm({ setDisplay }) {
     let v = await checkValid();
     if (v) {
       try {
-        const response = await axios.post('http://192.168.124.197:1000/', formData);
+        const response = await axios.post(`${HOST}/`, formData);
         setData(response.data.data);
         setDisplay(true);
       } catch (error) {
@@ -93,7 +94,7 @@ export default function InputForm({ setDisplay }) {
     let v = await checkValid();
     if (v) {
       try {
-        const response = await axios.put('http://192.168.124.197:1000/', formData);
+        const response = await axios.put(`${HOST}/`, formData);
         setData(response.data.data);
         setDisplay(true);
       } catch (error) {

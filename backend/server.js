@@ -1,6 +1,7 @@
 const app = require('./app');
 const { checkConnection } = require('./middleware/createDatabase');
 const { createAdmission, getAdmission, updateAdmission, deleteAdmission, isAdmissionNumberUnique } = require('./middleware/databaseCRUD');
+const { readCSV } = require('./middleware/studentDataBase');
 
 
 
@@ -15,8 +16,13 @@ app.put('/:admission_number',updateAdmission);
 app.delete('/:admission_number',deleteAdmission);
 app.get('/check/:admission_number',isAdmissionNumberUnique)
 
+app.post('/addData',async (req,res,next)=>{
+    const data = await readCSV(req.body.data);
+    res.send(data);
+});
+
 const PORT = 1000;
 
-app.listen(PORT,'192.168.124.197', () => {
-    console.log(`Server is working on http://192.168.124.197:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server is working on http://localhost:${PORT}`);
 });
