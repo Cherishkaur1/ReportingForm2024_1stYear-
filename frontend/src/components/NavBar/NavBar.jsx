@@ -3,7 +3,7 @@ import logo from '../../assets/images/Ct_logo.png'
 import OptionTag from './OptionTag'
 export default function NavBar({setOption , selectedOption}) {
   return (
-    <div className="p-4 w-full flex items-center justify-between bg-blue-600">
+    <div className="p-2 w-full flex items-center justify-between bg-blue-600">
         <div className="flex items-center w-full">
             <img src={logo} alt="CT University Logo" className="w-10 sm:w-[65px] sm:ml-5" />
             {/* <h1 className="text-xl font-bold text-white text-center flex-grow text-[10px] sm:text-[20px]">Admissison Data : 2024</h1> */}

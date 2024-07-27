@@ -30,6 +30,8 @@ export default function DropDown({ label, name, value, required, handleFormData,
         }
     },[dependentData]);
 
+    
+
     const validateInput = (inputValue) => {
         if (required && inputValue.trim() === '') {
             return `${label} is required`;

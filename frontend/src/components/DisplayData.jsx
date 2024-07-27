@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { FormDataContext } from '../context/FormDataContext';
 
 // Define style constants
@@ -6,10 +6,14 @@ const LABEL_STYLE = 'block text-sm font-medium text-gray-700';
 const VALUE_STYLE = 'ml-4 text-base text-gray-900';
 
 const DisplayData = ({ setDisplay }) => {
-  const { data, setData } = useContext(FormDataContext);
+  const { data } = useContext(FormDataContext);
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
-    <div className='p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-6'>
+    <div className='p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-6 printable'>
       {/* UID Section */}
       {data.UID && (
         <div className='mb-4 p-4 bg-gray-100 border border-gray-200 rounded-md'>
@@ -102,12 +106,20 @@ const DisplayData = ({ setDisplay }) => {
         </div>
       </div>
 
-      <button
-        onClick={() => setDisplay(false)}
-        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Back
-      </button>
+      <div className='flex space-x-4'>
+        <button
+          onClick={() => setDisplay(false)}
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Back
+        </button>
+        <button
+          onClick={handlePrint}
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Print
+        </button>
+      </div>
     </div>
   );
 };

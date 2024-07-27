@@ -5,9 +5,12 @@ import DisplayData from './components/DisplayData'
 import { FormDataProvider } from './context/FormDataContext'
 import StudentsData from './components/StudentsData/StudentsData'
 import InsertData from './components/insertdata/InsertData'
+import CheckRegistrationNumber from './components/CheckRegistrationNumber'
 function App() {
   const [display,setDisplay] = useState(false);
   const [selectedOption,setSelectedOption] = useState('Reporting Form')
+
+  
 
   useEffect(()=>{
     console.log(selectedOption);
@@ -19,7 +22,7 @@ function App() {
 
       {/* <AdmissionForm /> */}
       {selectedOption === 'Reporting Form' && <>
-          {display ? <DisplayData setDisplay={setDisplay}/> : <InputForm setDisplay={setDisplay}/>}
+          {display ? <DisplayData setDisplay={setDisplay}/> : <CheckRegistrationNumber setDisplay={setDisplay}/>}
       </>}
 
       {/* Update Data */}

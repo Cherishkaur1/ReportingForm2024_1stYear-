@@ -114,7 +114,7 @@ exports.insertOrUpdateData = async (dataList) => {
                 formatValue(row['Programme'], 255), // program
                 formatValue(row['UG/ PG/ Diploma'], 255), // program_type
                 formatValue(row['Student\'s Name'], 255), // name
-                formatValue(row['Father Name'], 255), // father_name
+                formatValue(row['Father name'], 255), // father_name
                 formatValue(row['MOTHER NAME'], 255), // mother_name
                 formatValue(row['Gender'], 10), // gender
                 formatValue(row['ADDRESS VILL/CITY'], 65535), // address (TEXT type, but capped for safety)

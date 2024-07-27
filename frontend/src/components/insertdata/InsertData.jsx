@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios'; // Import Axios
 import UploadFile from './UploadFile';
-import ShowTable from './ShowTable';
 import { HOST } from '../../context/Constants';
 
 
@@ -44,7 +43,7 @@ const InsertData = () => {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
-      {uploadFilePage ? <UploadFile handleFile = {handleFile}/> : <ShowTable csvFile={csvFile}/>}
+      {uploadFilePage ? <UploadFile handleFile = {handleFile}/> : {}}
     </div>
   );
 };

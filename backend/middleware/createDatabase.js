@@ -38,8 +38,8 @@ const createTable = async () => {
         email_id_parent VARCHAR(255),
         aadhar VARCHAR(255),
         ABCID VARCHAR(255),
-        date_of_birth DATE NOT NULL,
-        registration_date Date NOT NULL,
+        date_of_birth VARCHAR(10) NOT NULL,
+        registration_date VARCHAR(10) NOT NULL,
         entry_type VARCHAR(255) NOT NULL
     )`;
 
@@ -63,7 +63,7 @@ const createTable = async () => {
         parent_contact_number VARCHAR(25),
         email_id VARCHAR(255),
         aadhar VARCHAR(255),
-        date_of_birth DATE,
+        date_of_birth VARCHAR(10),
         pending VARCHAR(1000)
     )`;
 

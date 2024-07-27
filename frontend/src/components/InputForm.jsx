@@ -5,7 +5,7 @@ import { FormDataContext, initialData } from '../context/FormDataContext';
 import DropDown from './DropDown';
 import { HOST } from '../context/Constants';
 
-export default function InputForm({ setDisplay }) {
+export default function InputForm({ setDisplay , setVisible , newData , setNewData }) {
   const [error, setError] = useState({});
   const { data, setData } = useContext(FormDataContext);
   // State to hold form data
@@ -48,8 +48,7 @@ export default function InputForm({ setDisplay }) {
       return value !== '';
     });
   };
-
-  const checkValid = async () => {
+  const noError=()=>{
     const nonEmpty = areAllValuesNonEmpty(formData);
     if (!nonEmpty) {
       alert('Some Input Entry are Empty');
@@ -60,11 +59,18 @@ export default function InputForm({ setDisplay }) {
       alert('Registration Number should be 8 Digits \n Mobile Number should be 10 Digits \n Gmail should have @ .com written in them');
       return false;
     }
+    return true;
+  }
+  const checkValid = async () => {
+    if(!noError){
+      return false;
+    }
     // check Registration if it is unique Number
     try {
       const resp = await axios.get(`${HOST}/check/${formData.admission_number}`);
       if (!resp.data.isUnique) {
         alert('Registration Number already there');
+        setNewData(false);
         return false;
       }
       return true;
@@ -76,7 +82,6 @@ export default function InputForm({ setDisplay }) {
   };
 
   const handleSubmit = async () => {
-    console.log(formData);
     let v = await checkValid();
     if (v) {
       try {
@@ -93,13 +98,16 @@ export default function InputForm({ setDisplay }) {
   };
 
   const handleUpdate = async () => {
-    console.log(formData);
-    let v = await checkValid();
+    let v = noError();
     if (v) {
       try {
-        const response = await axios.put(`${HOST}/`, formData);
-        setData(response.data.data);
-        setDisplay(true);
+        const response = await axios.put(`${HOST}/${formData.admission_number}`, formData);
+        if(response.status === 200){
+          alert("Data Updated")
+          setDisplay(true);
+        }else{
+          alert("Problem while Updating data")
+        }
       } catch (error) {
         alert('Server Error');
         console.error('Error Updating Data:', error);
@@ -123,42 +131,11 @@ export default function InputForm({ setDisplay }) {
     });
   };
 
-  const handleCheck = async() =>{
-    try{
-      const data = await axios.get(`${HOST}/checkData/${formData.admission_number}`);
-      setFormData(prevState => ({
-        ...prevState,
-        admission_number: data.admission_number || prevState.admission_number,
-        name: data.name || prevState.name,
-        father_name: data.father_name || prevState.father_name,
-        mother_name: data.mother_name || prevState.mother_name,
-        address: data.address || prevState.address,
-        city: data.city || prevState.city,
-        state: data.state || prevState.state,
-        pincode: data.pincode || prevState.pincode,
-        country: data.country || prevState.country,
-        contact_number_student: data.contact_number_student || prevState.contact_number_student,
-        parent_contact_number: data.parent_contact_number || prevState.parent_contact_number,
-        email_id: data.email_id || prevState.email_id,
-        email_id_parent: data.email_id_parent || prevState.email_id_parent,
-        date_of_birth: data.date_of_birth || prevState.date_of_birth,
-        aadhar: data.aadhar || prevState.aadhar,
-        ABCID: data.ABCID || prevState.ABCID,
-        pending: data.pending || prevState.pending
-    }));
-
-    }catch(err){
-      console.log(err);
-    }
-  }
-
+ 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4 relative">
-      <h1 className="text-2xl font-semibold">Reporting Form</h1>
-      <button
-      onClick={handleCheck}
-      className="absolute ml-[150px] items-center px-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >Check</button>
+      <h1 className="text-2xl font-semibold">Reporting Form </h1>
+      {!newData &&<label>UID No : {formData.UID}</label> }
       <div className="grid grid-cols-4 gap-4"> {/* Adjusted grid to 4 columns with appropriate spacing */}
 
         {/* Row 1 */}
@@ -172,6 +149,7 @@ export default function InputForm({ setDisplay }) {
             handleFormData={handleInputChange}
             validation={getValidationRules('admission_number')}
             setError={handleErrorChange}
+            disable
           />
         </div>
         <div className="col-span-1">
@@ -196,12 +174,14 @@ export default function InputForm({ setDisplay }) {
             dependentData={null}
           />
         </div>
+        
         <div className="col-span-1">
           <TempTextInput
-            label="ABC ID"
-            type="text"
-            name="ABCID"
-            value={formData.ABCID}
+            label="Date of Birth"
+            type="date"
+            name="date_of_birth"
+            value={formData.date_of_birth}
+            required={true}
             handleFormData={handleInputChange}
             setError={handleErrorChange}
           />
@@ -358,7 +338,17 @@ export default function InputForm({ setDisplay }) {
             setError={handleErrorChange}
           />
         </div>
-        <div className="col-span-3">
+        <div className="col-span-1">
+          <TempTextInput
+            label="ABC ID"
+            type="text"
+            name="ABCID"
+            value={formData.ABCID}
+            handleFormData={handleInputChange}
+            setError={handleErrorChange}
+          />
+        </div>
+        <div className="col-span-2">
           <TempTextInput
             label="Address"
             type="text"
@@ -418,14 +408,31 @@ export default function InputForm({ setDisplay }) {
       </div>
 
       {/* Submit button */}
-      <div className="flex justify-end mt-4">
-        <button
+      <div className="flex justify-around mt-4">
+      <button
           type="button"
-          onClick={handleSubmit}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={()=>{setData(initialData); setVisible(false)}}
+          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
         >
-          Submit
+          Back
         </button>
+
+      {newData ?
+              <button
+              type="button"
+              onClick={handleSubmit}
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Submit
+            </button>:
+            <button
+            type="button"
+            onClick={handleUpdate}
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Update
+          </button>
+          }
       </div>
     </div>
   );
