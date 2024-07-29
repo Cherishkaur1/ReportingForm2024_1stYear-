@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { FormDataContext } from '../context/FormDataContext';
+import { FormDataContext, initialData } from '../context/FormDataContext';
 
 // Define style constants
 const LABEL_STYLE = 'block text-sm font-medium text-gray-700';
 const VALUE_STYLE = 'ml-4 text-base text-gray-900';
 
 const DisplayData = ({ setDisplay }) => {
-  const { data } = useContext(FormDataContext);
+  const { data , setData } = useContext(FormDataContext);
 
   const handlePrint = () => {
     window.print();
@@ -108,7 +108,7 @@ const DisplayData = ({ setDisplay }) => {
 
       <div className='flex space-x-4'>
         <button
-          onClick={() => setDisplay(false)}
+          onClick={() => {setDisplay(false); setData(initialData);}}
           className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Back

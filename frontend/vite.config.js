@@ -11,7 +11,7 @@ export default defineConfig({
     //   ca: fs.readFileSync(path.resolve(__dirname, './certs/My_CA_Bundle.ca-bundle')),
     // },
     port: 1001, // Set the port to 80 for http 443 for https
-    // host: '0.0.0.0', // Allow connections from any IP address
+    host: '0.0.0.0', // Allow connections from any IP address
     // proxy: {
     //   '/api': {
     //     target: 'http://localhost:1000',

@@ -242,6 +242,6 @@ const initialData = {
     entry_type:''
   };
 
-const HOST = "http://localhost:1000";
+const HOST = "http://192.168.124.197:1000";
 
 export {school , department , program , gender , admission_category , program_type , entry_type , HOST , initialData};

@@ -6,6 +6,7 @@ import { FormDataProvider } from './context/FormDataContext'
 import StudentsData from './components/StudentsData/StudentsData'
 import InsertData from './components/insertdata/InsertData'
 import CheckRegistrationNumber from './components/CheckRegistrationNumber'
+import AdmissionFilter from './components/printStudentData/AdmissionFilter'
 function App() {
   const [display,setDisplay] = useState(false);
   const [selectedOption,setSelectedOption] = useState('Reporting Form')
@@ -32,7 +33,7 @@ function App() {
 
       {/* Students Data */}
       {
-        selectedOption === "Students Data" && <StudentsData />
+        selectedOption === "Students Data" && <AdmissionFilter />
       }
       
     </div>

@@ -150,4 +150,69 @@ exports.isAdmissionNumberUnique = async (req, res, next) => {
     }
 };
 
+// Function to fetch admission data based on filters
+exports.getAdmissionData = async (req, res, next) => {
+    const { school, program, department, program_type, admission_category, entry_type, reporting_date } = req.query;
 
+    // Function to convert date from yyyy-mm-dd to dd-mm-yyyy
+    const formatDate = (dateStr) => {
+        if (!dateStr) return null;
+        const [year, month, day] = dateStr.split('-');
+        return `${day}-${month}-${year}`;
+    };
+
+    // Base query
+    let query = `SELECT * FROM admission2024`;
+
+    // Array to store conditions and values for the query
+    let conditions = [];
+    let values = [];
+
+    // Add conditions based on filters
+    if (school) {
+        conditions.push(`school_name = ?`);
+        values.push(school);
+    }
+    if (program) {
+        conditions.push(`program = ?`);
+        values.push(program);
+    }
+    if (department) {
+        conditions.push(`department = ?`);
+        values.push(department);
+    }
+    if (program_type) {
+        conditions.push(`program_type = ?`);
+        values.push(program_type);
+    }
+    if (admission_category) {
+        conditions.push(`admission_category = ?`);
+        values.push(admission_category);
+    }
+    if (entry_type) {
+        conditions.push(`entry_type = ?`);
+        values.push(entry_type);
+    }
+    if (reporting_date) {
+        // Convert reporting_date format
+        const formattedDate = formatDate(reporting_date);
+        conditions.push(`registration_date = ?`);
+        values.push(formattedDate);
+    }
+
+    // If there are conditions, append them to the query
+    if (conditions.length > 0) {
+        query += ` WHERE ` + conditions.join(' AND ');
+    }
+
+    try {
+        // Execute the query
+        const [rows] = await pool.query(query, values);
+
+        // Return the results as a JSON response
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error('Error fetching admission data:', err);
+        next(err);
+    }
+};
