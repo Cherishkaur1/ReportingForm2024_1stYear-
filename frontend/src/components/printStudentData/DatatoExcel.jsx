@@ -3,11 +3,7 @@ import { saveAs } from 'file-saver';
 
 export const exportToExcel = (data, header) => {
 
-  const name = Object.values(header).reduce((acc, value) => {
-      return acc + (value === "" ? " , " : value);}, "") || "Full Data";
-
-  const fileName = name + '.xlsx';
-
+  let fileName =  'data of '+ data.length +' Students'+ header.reporting_date +'.xlsx'; 
   // Convert JSON data to worksheet
   const worksheet = XLSX.utils.json_to_sheet(data);
 

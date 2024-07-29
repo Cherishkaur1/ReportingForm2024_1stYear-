@@ -62,7 +62,14 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
     return true;
   }
   const checkValid = async () => {
-    if(!noError){
+    const nonEmpty = areAllValuesNonEmpty(formData);
+    if (!nonEmpty) {
+      alert('Some Input Entry are Empty');
+      return false;
+    }
+    const noError = areAllValuesEmpty(error);
+    if (!noError) {
+      alert('Registration Number should be 8 Digits \n Mobile Number should be 10 Digits \n Gmail should have @ .com written in them');
       return false;
     }
     // check Registration if it is unique Number
