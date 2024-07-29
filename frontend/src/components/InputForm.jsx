@@ -8,10 +8,8 @@ import { HOST } from '../context/Constants';
 export default function InputForm({ setDisplay , setVisible , newData , setNewData }) {
   const [error, setError] = useState({});
   const { data, setData } = useContext(FormDataContext);
-  // State to hold form data
   const [formData, setFormData] = useState(data);
 
-  // Function to get validation rules based on field name
   const getValidationRules = (fieldName) => {
     switch (fieldName) {
       case 'email_id':
@@ -27,28 +25,23 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
     }
   };
 
-  const areAllValuesEmpty = (obj) => {
-    return Object.values(obj).every((value) => value === '');
-  };
-  useEffect(()=>{
-    console.log(formData)
-  },[formData])
-  
+  const areAllValuesEmpty = (obj) => Object.values(obj).every((value) => value === '');
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   const areAllValuesNonEmpty = (obj) => {
-    // Define keys to exclude from the non-empty check
     const excludeKeys = ['ABCID', 'aadhar', 'email_id_parent', 'parent_contact_number', 'address'];
-  
-    // Iterate over the object values and keys
     return Object.entries(obj).every(([key, value]) => {
-      // If the key is in the exclude list, ignore it
       if (excludeKeys.includes(key)) {
-        return true; // Ignore this field for the check
+        return true;
       }
-      // Check if the value is not empty for other fields
       return value !== '';
     });
   };
-  const noError=()=>{
+
+  const noError = () => {
     const nonEmpty = areAllValuesNonEmpty(formData);
     if (!nonEmpty) {
       alert('Some Input Entry are Empty');
@@ -60,7 +53,8 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
       return false;
     }
     return true;
-  }
+  };
+
   const checkValid = async () => {
     const nonEmpty = areAllValuesNonEmpty(formData);
     if (!nonEmpty) {
@@ -72,7 +66,6 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
       alert('Registration Number should be 8 Digits \n Mobile Number should be 10 Digits \n Gmail should have @ .com written in them');
       return false;
     }
-    // check Registration if it is unique Number
     try {
       const resp = await axios.get(`${HOST}/check/${formData.admission_number}`);
       if (!resp.data.isUnique) {
@@ -109,11 +102,11 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
     if (v) {
       try {
         const response = await axios.put(`${HOST}/${formData.admission_number}`, formData);
-        if(response.status === 200){
-          alert("Data Updated")
+        if (response.status === 200) {
+          alert('Data Updated');
           setDisplay(true);
-        }else{
-          alert("Problem while Updating data")
+        } else {
+          alert('Problem while Updating data');
         }
       } catch (error) {
         alert('Server Error');
@@ -138,11 +131,10 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
     });
   };
 
- 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4 relative">
-      <h1 className="text-2xl font-semibold">Reporting Form </h1>
-      {!newData &&<label>UID No : {formData.UID}</label> }
+      <h1 className="text-2xl font-semibold">Reporting Form</h1>
+      {!newData && <label>UID No : {formData.UID}</label>}
       <div className="grid grid-cols-4 gap-4"> {/* Adjusted grid to 4 columns with appropriate spacing */}
 
         {/* Row 1 */}
@@ -181,7 +173,6 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             dependentData={null}
           />
         </div>
-        
         <div className="col-span-1">
           <TempTextInput
             label="Date of Birth"
@@ -307,13 +298,13 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             value={formData.email_id}
             handleFormData={handleInputChange}
             required
-            validation={getValidationRules('email_id')}
             setError={handleErrorChange}
+            validation={getValidationRules('email_id')}
           />
         </div>
         <div className="col-span-1">
           <TempTextInput
-            label="Parent Contact Number"
+            label="Parent's Contact Number"
             type="number"
             name="parent_contact_number"
             value={formData.parent_contact_number}
@@ -329,15 +320,15 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             name="email_id_parent"
             value={formData.email_id_parent}
             handleFormData={handleInputChange}
-            validation={getValidationRules('email_id_parent')}
             setError={handleErrorChange}
+            validation={getValidationRules('email_id_parent')}
           />
         </div>
 
         {/* Row 5 */}
         <div className="col-span-1">
           <TempTextInput
-            label="Aadhar No."
+            label="Aadhaar Number"
             type="number"
             name="aadhar"
             value={formData.aadhar}
@@ -367,26 +358,38 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
         </div>
 
         {/* Row 6 */}
+        
         <div className="col-span-1">
           <TempTextInput
-            label="Country"
+            label="Pincode"
             type="text"
-            name="country"
-            value={formData.country}
+            name="pincode"
+            value={formData.pincode}
             handleFormData={handleInputChange}
-            required
             setError={handleErrorChange}
           />
         </div>
         <div className="col-span-1">
-          <TempTextInput
+          <DropDown
+            label="Country"
+            name="country"
+            value={formData.country}
+            required={true}
+            handleFormData={handleInputChange}
+            setError={handleErrorChange}
+            dependentData={null}
+          />
+        </div>
+
+        <div className="col-span-1">
+          <DropDown
             label="State"
-            type="text"
             name="state"
             value={formData.state}
+            required={true}
             handleFormData={handleInputChange}
-            required
             setError={handleErrorChange}
+            dependentData={formData.country}
           />
         </div>
         <div className="col-span-1">
@@ -395,51 +398,37 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             type="text"
             name="city"
             value={formData.city}
+            required={true}
             handleFormData={handleInputChange}
-            required
             setError={handleErrorChange}
           />
         </div>
-        <div className="col-span-1">
-          <TempTextInput
-            label="Pincode"
-            type="number"
-            name="pincode"
-            value={formData.pincode}
-            handleFormData={handleInputChange}
-            required
-            validation={getValidationRules('pincode')}
-            setError={handleErrorChange}
-          />
-        </div>
+
+        
       </div>
 
-      {/* Submit button */}
-      <div className="flex justify-around mt-4">
-      <button
-          type="button"
-          onClick={()=>{setData(initialData); setVisible(false)}}
-          className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-        >
-          Back
-        </button>
-
-      {newData ?
-              <button
-              type="button"
-              onClick={handleSubmit}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Submit
-            </button>:
-            <button
-            type="button"
+      <div className="flex justify-center space-x-4 mt-6">
+        {newData ? (
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        ) : (
+          <button
             onClick={handleUpdate}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Update
           </button>
-          }
+        )}
+        <button
+          onClick={() => setVisible(false)}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );

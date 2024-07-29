@@ -1,3 +1,5 @@
+import { Country, State } from "country-state-city"
+import { getStateByCode } from "country-state-city/lib/state"
 const school = [
     "School of Engineering and Technology",
     "School of Law",
@@ -239,9 +241,33 @@ const initialData = {
     program_type: '',
     aadhar:'',
     ABCID:'',
-    entry_type:''
+    entry_type:'',
+
+    countryCode:'',
+    stateCode:''
   };
 
 const HOST = "http://localhost:1000";
 
-export {school , department , program , gender , admission_category , program_type , entry_type , HOST , initialData};
+const getCountryCode = () => {
+    return Country.getAllCountries().reduce((accumulator, country) => {
+      accumulator[country.name] = country.isoCode;
+      return accumulator;
+    }, {});
+  }
+  
+
+const getStateCode = () => {
+    return State.getAllStates().reduce((accumulator, state) => {
+      accumulator[state.name] = state.isoCode;
+      return accumulator;
+    }, {});
+  }
+
+
+const countryList = Country.getAllCountries().map((val)=> val.name);
+const countryCode = getCountryCode();
+
+const StateCode = getStateCode();
+
+export {school , department , program , gender , admission_category , program_type , entry_type , HOST , initialData , countryList , countryCode , StateCode};

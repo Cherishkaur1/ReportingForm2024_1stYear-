@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { school, department, program , gender,admission_category , program_type,entry_type } from '../context/Constants'; // Adjust the import path as needed
-
+import { school, department, program , gender,admission_category , program_type,entry_type, countryList, countryCode, StateCode } from '../context/Constants'; // Adjust the import path as needed
+import { State , Country , City } from 'country-state-city';
 export default function DropDown({ label, name, value, required, handleFormData, setError, dependentData }) {
     const [errorMsg, setErrorMsg] = useState('');
     const [data, setData] = useState(value);
@@ -10,23 +10,36 @@ export default function DropDown({ label, name, value, required, handleFormData,
         if (name === 'school_name') {
             setOptions(school);          
         }
-        if(name === 'department' && dependentData !== ""){
+        else if(name === 'department' && dependentData !== ""){
             setOptions(department[dependentData]);
         }
-        if(name === 'program' && dependentData !== ""){
+        else if(name === 'program' && dependentData !== ""){
             setOptions((program[dependentData]));
         }
-        if(name == 'gender'){
+        else if(name == 'gender'){
             setOptions(gender);
         }
-        if(name == 'admission_category'){
+        else if(name == 'admission_category'){
             setOptions(admission_category);
         }
-        if(name == 'program_type'){
+        else if(name == 'program_type'){
             setOptions(program_type);
         }
-        if(name == 'entry_type'){
+        else if(name == 'entry_type'){
             setOptions(entry_type)
+        }
+        else if(name == 'country'){
+            setOptions(countryList);
+        }
+        else if(name =='state' && dependentData != ""){
+            const code = countryCode[dependentData];
+            const states = State.getStatesOfCountry(code).map((val)=>val.name);
+            setOptions(states);
+        }
+        else if(name == 'city' && dependentData != ""){
+            const code = StateCode[dependentData];
+            const cities = City.getCitiesOfState(code).map((val)=>val.name);
+            setOptions(cities);
         }
     },[dependentData]);
 
