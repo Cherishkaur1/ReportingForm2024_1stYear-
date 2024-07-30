@@ -247,7 +247,8 @@ const initialData = {
     stateCode:''
   };
 
-const HOST = "http://localhost:1000";
+// const HOST = "http://localhost:1000";
+const HOST = "http://192.168.124.197:1000";
 
 const getCountryCode = () => {
     return Country.getAllCountries().reduce((accumulator, country) => {

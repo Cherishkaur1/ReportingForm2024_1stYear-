@@ -31,10 +31,10 @@ app.get('/getData/getAdmissionData',getAdmissionData);
 
 const PORT = 1000;
 
-// app.listen(PORT, process.env.IP,() => {
-//     console.log(`Server is working on ${process.env.IP}:${PORT}`);
-// });
-
-app.listen(PORT,() => {
-    console.log(`Server is working on http://localhost:${PORT}`);
+app.listen(PORT, process.env.IP,() => {
+    console.log(`Server is working on ${process.env.IP}:${PORT}`);
 });
+
+// app.listen(PORT,() => {
+//     console.log(`Server is working on http://localhost:${PORT}`);
+// });
