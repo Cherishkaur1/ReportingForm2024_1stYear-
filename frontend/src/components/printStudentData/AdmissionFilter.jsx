@@ -3,6 +3,23 @@ import axios from 'axios';
 import { admission_category, department, entry_type, HOST, program_type, school, program } from '../../context/Constants';
 import { exportToExcel } from './DatatoExcel';
 
+function sortByUIDDescending(data) {
+  return data.sort((a, b) => {
+      // Extract UID values
+      const uidA = a.UID;
+      const uidB = b.UID;
+      
+      // Compare the UID values in descending order
+      if (uidA < uidB) {
+          return 1; // Move b before a
+      }
+      if (uidA > uidB) {
+          return -1; // Move a before b
+      }
+      return 0; // Keep the order unchanged
+  });
+}
+
 const AdmissionFilter = () => {
   // State to hold filter values
   const [filters, setFilters] = useState({
@@ -29,7 +46,8 @@ const AdmissionFilter = () => {
 
     try {
       const response = await axios.get(`${HOST}/getData/getAdmissionData`, { params: filters });
-      setData(response.data);
+      const val = response.data;
+      setData(sortByUIDDescending(val));
     } catch (err) {
       setError('Error fetching data');
       console.error('Error fetching data:', err);
@@ -102,12 +120,15 @@ const AdmissionFilter = () => {
         </div>
       </div>
 
-      <button
-        onClick={handleExport}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Export to Excel
-      </button>
+      <div>
+        <button
+          onClick={handleExport}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Export to Excel
+        </button>
+        <label className='ml-[40%] font-semibold'>Total Number of Studetns : <label className='font-bold text-red-600 text-[20px]'>{data.length}</label></label>
+      </div>
 
       <div>
         {loading && <p className="text-blue-500">Loading...</p>}

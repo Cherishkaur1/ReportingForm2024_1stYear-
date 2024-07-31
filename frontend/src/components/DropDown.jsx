@@ -84,7 +84,7 @@ export default function DropDown({ label, name, value, required, handleFormData,
                 name={name}
                 value={data}
                 onChange={handleSelect}
-                className={`block w-full px-3 py-2 border ${errorMsg !== true && errorMsg !== '' ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                className={`block w-full px-3 py-2 border ${(errorMsg !== true && errorMsg !== '' )|| (required && data == "") ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 required={required}
             >
                 <option value="">-- Select {label} --</option>

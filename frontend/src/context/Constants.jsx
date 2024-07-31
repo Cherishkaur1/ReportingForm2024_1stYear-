@@ -241,10 +241,7 @@ const initialData = {
     program_type: '',
     aadhar:'',
     ABCID:'',
-    entry_type:'',
-
-    countryCode:'',
-    stateCode:''
+    entry_type:''
   };
 
 // const HOST = "http://localhost:1000";

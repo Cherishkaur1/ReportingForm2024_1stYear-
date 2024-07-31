@@ -1,5 +1,6 @@
 const app = require('./app');
 const { checkConnection } = require('./middleware/createDatabase');
+const { getAllSchool, insertSchoolName, getDepartmentBySchool, getProgramByDepartment } = require('./middleware/createSchoolData');
 const { createAdmission, getAdmission, updateAdmission, deleteAdmission, isAdmissionNumberUnique, getAdmissionData } = require('./middleware/databaseCRUD');
 const { readCSV, insertOrUpdateData, fetchDataByAdmissionNumber } = require('./middleware/studentDataBase');
 
@@ -28,6 +29,11 @@ app.get('/checkData/:regNo',async (req,res,next)=>{
     res.send(data);
 })
 app.get('/getData/getAdmissionData',getAdmissionData);
+
+app.get('/SchoolData/getAllSchoolName',getAllSchool);
+app.post('/SchoolData/addSchoolData',insertSchoolName);
+app.get('/DepratmentData/:school_name',getDepartmentBySchool);
+app.get('/ProgramData/:department',getProgramByDepartment);
 
 const PORT = 1000;
 
