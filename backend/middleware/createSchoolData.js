@@ -13,12 +13,12 @@ const pool = mysql.createPool({
 
 
 exports.insertSchoolName = async(req,res,next) => {
-    const {school_name , department , program} = req.body;
+    const {school , department , program} = req.body;
     const insertQuery = `INSERT INTO schoolNameTable (school_name, department, program)
                          VALUES (?, ?, ?)`;
 
     try {
-        const [result] = await pool.query(insertQuery, [school_name, department, program]);
+        const [result] = await pool.query(insertQuery, [school, department, program]);
         res.status(200).send('Data inserted successfully:');
         return result;
     } catch (err) {
@@ -82,3 +82,5 @@ exports.getProgramByDepartment = async (req, res, next) => {
         res.status(500).send('Internal Server Error');
     }
 }
+
+

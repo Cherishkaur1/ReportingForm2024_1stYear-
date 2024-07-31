@@ -7,6 +7,7 @@ import StudentsData from './components/StudentsData/StudentsData'
 import InsertData from './components/insertdata/InsertData'
 import CheckRegistrationNumber from './components/CheckRegistrationNumber'
 import AdmissionFilter from './components/printStudentData/AdmissionFilter'
+import UpdateSchoolData from './components/updateSchoolData/UpdateSchoolData'
 function App() {
   const [display,setDisplay] = useState(false);
   const [selectedOption,setSelectedOption] = useState('Reporting Form')
@@ -34,6 +35,9 @@ function App() {
       {/* Students Data */}
       {
         selectedOption === "Students Data" && <AdmissionFilter />
+      }
+      {
+        selectedOption === "Update School Data" && <UpdateSchoolData />
       }
       
     </div>

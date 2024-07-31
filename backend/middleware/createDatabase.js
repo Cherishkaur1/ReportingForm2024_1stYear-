@@ -68,7 +68,6 @@ const createTable = async () => {
     )`;
     
     const createTableQuery3 = `CREATE TABLE IF NOT EXISTS schoolNameTable(
-        id INT AUTO_INCREMENT PRIMARY KEY,
         school_name VARCHAR(255) NOT NULL,
         department VARCHAR(255) NOT NULL,
         program VARCHAR(255) NOT NULL

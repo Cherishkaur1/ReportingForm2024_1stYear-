@@ -1,4 +1,5 @@
 const app = require('./app');
+const { insertData } = require('./helperFunctions/uploadSchoolProgramData');
 const { checkConnection } = require('./middleware/createDatabase');
 const { getAllSchool, insertSchoolName, getDepartmentBySchool, getProgramByDepartment } = require('./middleware/createSchoolData');
 const { createAdmission, getAdmission, updateAdmission, deleteAdmission, isAdmissionNumberUnique, getAdmissionData } = require('./middleware/databaseCRUD');
@@ -37,10 +38,12 @@ app.get('/ProgramData/:department',getProgramByDepartment);
 
 const PORT = 1000;
 
-app.listen(PORT, process.env.IP,() => {
-    console.log(`Server is working on ${process.env.IP}:${PORT}`);
-});
-
-// app.listen(PORT,() => {
-//     console.log(`Server is working on http://localhost:${PORT}`);
+// app.listen(PORT, process.env.IP,() => {
+//     console.log(`Server is working on ${process.env.IP}:${PORT}`);
 // });
+
+insertData();
+
+app.listen(PORT,() => {
+    console.log(`Server is working on http://localhost:${PORT}`);
+});

@@ -1,20 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import { school, department, program , gender,admission_category , program_type,entry_type, countryList, countryCode, StateCode } from '../context/Constants'; // Adjust the import path as needed
-import { State , Country , City } from 'country-state-city';
+import { gender,admission_category , program_type,entry_type, countryList, countryCode, StateCode, HOST } from '../context/Constants'; // Adjust the import path as needed
+import { State , City } from 'country-state-city';
+import axios from 'axios'
+
 export default function DropDown({ label, name, value, required, handleFormData, setError, dependentData }) {
     const [errorMsg, setErrorMsg] = useState('');
     const [data, setData] = useState(value);
     const [options, setOptions] = useState([]);
+
+    const fetchSchools = async () => {
+        try {
+            const response = await axios.get(`${HOST}/SchoolData/getAllSchoolName`);
+            setOptions(response.data);
+        } catch (error) {
+            console.error('Error fetching schools:', error);
+        }
+    };
+
+    const fetchDepartments = async (schoolName) => {
+        try {
+            const response = await axios.get(`${HOST}/DepratmentData/${encodeURIComponent(schoolName)}`);
+            setOptions(response.data);
+        } catch (error) {
+            console.error('Error fetching departments:', error);
+        }
+    };
+
+    const fetchPrograms = async (departmentName) => {
+        try {
+            const response = await axios.get(`${HOST}/ProgramData/${encodeURIComponent(departmentName)}`);
+            setOptions(response.data);
+        } catch (error) {
+            console.error('Error fetching programs:', error);
+        }
+    };
+
     
     useEffect(()=>{
         if (name === 'school_name') {
-            setOptions(school);          
+            fetchSchools();         
         }
         else if(name === 'department' && dependentData !== ""){
-            setOptions(department[dependentData]);
+            fetchDepartments(dependentData);
         }
         else if(name === 'program' && dependentData !== ""){
-            setOptions((program[dependentData]));
+            fetchPrograms(dependentData);
         }
         else if(name == 'gender'){
             setOptions(gender);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { admission_category, department, entry_type, HOST, program_type, school, program } from '../../context/Constants';
+import { admission_category, entry_type, HOST, program_type } from '../../context/Constants';
 import { exportToExcel } from './DatatoExcel';
 
 function sortByUIDDescending(data) {
@@ -39,6 +39,38 @@ const AdmissionFilter = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [schoolOptions, setSchoolOptions] = useState([]);
+  const [departmentOptions, setDepartmentOptions] = useState([]);
+  const [programOptions, setProgramOptions] = useState([]);
+        
+    
+    const fetchSchools = async () => {
+        try {
+            const response = await axios.get(`${HOST}/SchoolData/getAllSchoolName`);
+            setSchoolOptions(response.data);
+        } catch (error) {
+            console.error('Error fetching schools:', error);
+        }
+    };
+
+    const fetchDepartments = async () => {
+        try {
+            const response = await axios.get(`${HOST}/DepratmentData/${encodeURIComponent(filters.school)}`);
+            setDepartmentOptions(response.data);
+        } catch (error) {
+            console.error('Error fetching departments:', error);
+        }
+    };
+
+    const fetchPrograms = async () => {
+        try {
+            const response = await axios.get(`${HOST}/ProgramData/${encodeURIComponent(filters.department)}`);
+            setProgramOptions(response.data);
+        } catch (error) {
+            console.error('Error fetching programs:', error);
+        }
+    };
+
   // Function to fetch data based on filters
   const fetchData = async () => {
     setLoading(true);
@@ -58,8 +90,26 @@ const AdmissionFilter = () => {
 
   // Fetch data when filters change
   useEffect(() => {
-    fetchData();
-  }, [filters]);
+    fetchSchools();
+}, []);
+
+useEffect(() => {
+    if (filters.school) {
+        fetchDepartments();
+    } else {
+        setDepartmentOptions([]);
+    }
+
+    if (filters.department) {
+      fetchPrograms();
+  } else {
+      setProgramOptions([]);
+  }
+
+  fetchData();
+
+}, [filters]);
+
 
   // Handle filter changes
   const handleChange = (e) => {
@@ -80,9 +130,9 @@ const AdmissionFilter = () => {
 
       <div className="flex flex-wrap gap-4 mb-6">
         {[
-          { name: 'school', label: 'School', options: school },
-          { name: 'department', label: 'Department', options: department[`${filters.school}`] },
-          { name: 'program', label: 'Program', options: program[`${filters.department}`] },
+          { name: 'school', label: 'School', options: schoolOptions },
+          { name: 'department', label: 'Department', options: departmentOptions },
+          { name: 'program', label: 'Program', options: programOptions },
           { name: 'program_type', label: 'Program Type', options: program_type },
           { name: 'admission_category', label: 'Admission Category', options: admission_category },
           { name: 'entry_type', label: 'Entry Type', options: entry_type }

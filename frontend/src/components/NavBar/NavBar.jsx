@@ -11,6 +11,7 @@ export default function NavBar({setOption , selectedOption}) {
               <OptionTag name='Reporting Form' selectedOption={selectedOption} setOption={setOption}/>
               <OptionTag name='Insert Data' selectedOption={selectedOption} setOption={setOption}/>
               <OptionTag name='Students Data' selectedOption={selectedOption} setOption={setOption}/>
+              <OptionTag name='Update School Data' selectedOption={selectedOption} setOption={setOption}/>
             </div>
         </div>
   </div>

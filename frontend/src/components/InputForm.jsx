@@ -27,12 +27,11 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
 
   const areAllValuesEmpty = (obj) => Object.values(obj).every((value) => value === '');
 
-  // useEffect(() => {
-  //   console.log(formData);
-  // }, [formData]);
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
   const areAllValuesNonEmpty = (obj) => {
-    // console.log(obj);
     const excludeKeys = ['ABCID', 'aadhar', 'email_id_parent', 'parent_contact_number', 'address'];
     return Object.entries(obj).every(([key, value]) => {
       if (excludeKeys.includes(key)) {
@@ -44,7 +43,6 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
 
   const noError = () => {
     const nonEmpty = areAllValuesNonEmpty(formData);
-    // console.log(formData);
     if (!nonEmpty) {
       alert('Some Input Entry are Empty');
       return false;
@@ -362,6 +360,16 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
         {/* Row 6 */}
         
         <div className="col-span-1">
+          <TempTextInput
+            label="Pincode"
+            type="text"
+            name="pincode"
+            value={formData.pincode}
+            handleFormData={handleInputChange}
+            setError={handleErrorChange}
+          />
+        </div>
+        <div className="col-span-1">
           <DropDown
             label="Country"
             name="country"
@@ -391,18 +399,6 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             name="city"
             value={formData.city}
             required={true}
-            handleFormData={handleInputChange}
-            setError={handleErrorChange}
-          />
-        </div>
-
-        <div className="col-span-1">
-          <TempTextInput
-            label="Pincode"
-            type="number"
-            name="pincode"
-            required={true}
-            value={formData.pincode}
             handleFormData={handleInputChange}
             setError={handleErrorChange}
           />
