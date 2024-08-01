@@ -32,7 +32,7 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
   }, [formData]);
 
   const areAllValuesNonEmpty = (obj) => {
-    const excludeKeys = ['ABCID', 'aadhar', 'email_id_parent', 'parent_contact_number', 'address'];
+    const excludeKeys = ['ABCID', 'aadhar', 'email_id_parent', 'parent_contact_number', 'address','pincode'];
     return Object.entries(obj).every(([key, value]) => {
       if (excludeKeys.includes(key)) {
         return true;

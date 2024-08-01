@@ -37,13 +37,13 @@ app.get('/DepratmentData/:school_name',getDepartmentBySchool);
 app.get('/ProgramData/:department',getProgramByDepartment);
 
 const PORT = 1000;
-
-// app.listen(PORT, process.env.IP,() => {
-//     console.log(`Server is working on ${process.env.IP}:${PORT}`);
-// });
-
-insertData();
-
-app.listen(PORT,() => {
-    console.log(`Server is working on http://localhost:${PORT}`);
+// insertData();
+app.listen(PORT, process.env.IP,() => {
+    console.log(`Server is working on ${process.env.IP}:${PORT}`);
 });
+
+
+
+// app.listen(PORT,() => {
+//     console.log(`Server is working on http://localhost:${PORT}`);
+// });

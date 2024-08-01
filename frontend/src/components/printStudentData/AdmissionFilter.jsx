@@ -113,6 +113,12 @@ useEffect(() => {
 
   // Handle filter changes
   const handleChange = (e) => {
+    if(e.target.name == "school"){
+      setFilters({...filters , department:"" , program:""});
+    }
+    if(e.target.name == "department" && e.target.value == ""){
+      setFilters({...filters ,program:""});
+    }
     setFilters({
       ...filters,
       [e.target.name]: e.target.value
