@@ -53,7 +53,7 @@ const initialData = {
     aadhar:'',
     ABCID:'',
     entry_type:'',
-    student_status:'still'
+    status:'still'
   };
 
 // const HOST = "http://localhost:1000";

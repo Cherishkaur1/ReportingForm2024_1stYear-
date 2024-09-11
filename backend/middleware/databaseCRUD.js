@@ -153,7 +153,7 @@ exports.isAdmissionNumberUnique = async (req, res, next) => {
 
 // Function to fetch admission data based on filters
 exports.getAdmissionData = async (req, res, next) => {
-    const { school, program, department, program_type, admission_category, entry_type, reporting_date } = req.query;
+    const { school, program, department, program_type, admission_category, entry_type, reporting_date , status } = req.query;
 
     // Function to convert date from yyyy-mm-dd to dd-mm-yyyy
     const formatDate = (dateStr) => {
@@ -199,6 +199,10 @@ exports.getAdmissionData = async (req, res, next) => {
         const formattedDate = formatDate(reporting_date);
         conditions.push(`registration_date = ?`);
         values.push(formattedDate);
+    }
+    if(status){
+        conditions.push(`status = ?`);
+        values.push(status);
     }
 
     // If there are conditions, append them to the query

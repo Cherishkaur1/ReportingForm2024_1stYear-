@@ -29,7 +29,8 @@ const AdmissionFilter = () => {
     program_type: '',
     admission_category: '',
     entry_type: '',
-    reporting_date: '' // Single date filter for reporting date
+    reporting_date: '', // Single date filter for reporting date
+    status:''
   });
 
   // State to hold fetched data
@@ -42,6 +43,7 @@ const AdmissionFilter = () => {
   const [schoolOptions, setSchoolOptions] = useState([]);
   const [departmentOptions, setDepartmentOptions] = useState([]);
   const [programOptions, setProgramOptions] = useState([]);
+  const [statusOptions , setStatusOptions] = useState(["still" , "left"]);
         
     
     const fetchSchools = async () => {
@@ -78,6 +80,7 @@ const AdmissionFilter = () => {
 
     try {
       const response = await axios.get(`${HOST}/getData/getAdmissionData`, { params: filters });
+      console.log(filters);
       const val = response.data;
       setData(sortByUIDDescending(val));
     } catch (err) {
@@ -141,7 +144,8 @@ useEffect(() => {
           { name: 'program', label: 'Program', options: programOptions },
           { name: 'program_type', label: 'Program Type', options: program_type },
           { name: 'admission_category', label: 'Admission Category', options: admission_category },
-          { name: 'entry_type', label: 'Entry Type', options: entry_type }
+          { name: 'entry_type', label: 'Entry Type', options: entry_type },
+          {name : 'status' , label : 'Student Status' , options: statusOptions}
         ].map(({ name, label, options }) => (
           <div key={name} className="flex-1 min-w-[150px]">
             <label className="block text-sm text-gray-700 text-[19px]">

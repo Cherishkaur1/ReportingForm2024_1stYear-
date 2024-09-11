@@ -138,7 +138,7 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
         <DropDown
           label="Status"
           name="status"
-          value={formData.city}
+          value={formData.status}
           required={true}
           handleFormData={handleInputChange}
           setError={handleErrorChange}
