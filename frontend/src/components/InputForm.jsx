@@ -19,7 +19,7 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
         return { equal: 8 };
       case 'contact_number_student':
       case 'parent_contact_number':
-        return { equal: 10 };
+        return { equal: 15 };
       default:
         return {};
     }
@@ -134,6 +134,16 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow-md space-y-4 relative">
       <h1 className="text-2xl font-semibold">Reporting Form</h1>
+      <div className="absolute left-[80%] -top-[1%] w-[100px] ">
+        <DropDown
+          label="Status"
+          name="status"
+          value={formData.city}
+          required={true}
+          handleFormData={handleInputChange}
+          setError={handleErrorChange}
+        />
+      </div>
       {!newData && <label>UID No : {formData.UID}</label>}
       <div className="grid grid-cols-4 gap-4"> {/* Adjusted grid to 4 columns with appropriate spacing */}
 
@@ -287,7 +297,7 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             handleFormData={handleInputChange}
             required
             setError={handleErrorChange}
-            validation={getValidationRules('contact_number_student')}
+            //validation={getValidationRules('contact_number_student')}
           />
         </div>
         <div className="col-span-1">
@@ -310,7 +320,7 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             value={formData.parent_contact_number}
             handleFormData={handleInputChange}
             setError={handleErrorChange}
-            validation={getValidationRules('parent_contact_number')}
+            //validation={getValidationRules('parent_contact_number')}
           />
         </div>
         <div className="col-span-1">
@@ -402,10 +412,10 @@ export default function InputForm({ setDisplay , setVisible , newData , setNewDa
             handleFormData={handleInputChange}
             setError={handleErrorChange}
           />
-        </div>
-
-        
+        </div>       
       </div>
+
+      
 
       <div className="flex justify-center space-x-4 mt-6">
         {newData ? (

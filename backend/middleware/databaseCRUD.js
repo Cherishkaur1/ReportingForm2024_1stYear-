@@ -85,7 +85,7 @@ exports.updateAdmission = async (req, res, next) => {
         UID, admission_category, school_name, department, program, program_type, name,
         father_name, mother_name, gender, address, city, state, pincode,
         country, contact_number_student, parent_contact_number, email_id,
-        email_id_parent, aadhar, ABCID, date_of_birth, entry_type
+        email_id_parent, aadhar, ABCID, date_of_birth, entry_type , status
     } = req.body;
 
     const updateQuery = `
@@ -93,7 +93,7 @@ exports.updateAdmission = async (req, res, next) => {
         SET UID = ?, admission_category = ?, school_name = ?, department = ?, program = ?, program_type = ?, name = ?,
             father_name = ?, mother_name = ?, gender = ?, address = ?, city = ?,
             state = ?, pincode = ?, country = ?, contact_number_student = ?,
-            parent_contact_number = ?, email_id = ?, email_id_parent = ?, aadhar = ?, ABCID = ?, date_of_birth = ?, entry_type = ?
+            parent_contact_number = ?, email_id = ?, email_id_parent = ?, aadhar = ?, ABCID = ?, date_of_birth = ?, entry_type = ? , status = ?
         WHERE admission_number = ?
     `;
 
@@ -102,7 +102,7 @@ exports.updateAdmission = async (req, res, next) => {
             UID, admission_category, school_name, department, program, program_type, name,
             father_name, mother_name, gender, address, city, state, pincode,
             country, contact_number_student, parent_contact_number, email_id,
-            email_id_parent, aadhar, ABCID, date_of_birth, entry_type, admission_number
+            email_id_parent, aadhar, ABCID, date_of_birth, entry_type,status, admission_number
         ]);
 
         if (result.affectedRows > 0) {
@@ -112,6 +112,7 @@ exports.updateAdmission = async (req, res, next) => {
         }
     } catch (err) {
         console.error('Error updating record:', err);
+        console.log("Error in Update")
         next(err);
     }
 };

@@ -40,7 +40,8 @@ const createTable = async () => {
         ABCID VARCHAR(255),
         date_of_birth VARCHAR(10) NOT NULL,
         registration_date VARCHAR(10) NOT NULL,
-        entry_type VARCHAR(255) NOT NULL
+        entry_type VARCHAR(255) NOT NULL,
+        status VARCHAR(255) DEFAULT 'still'
     )`;
 
     const createTableQuery2 = `CREATE TABLE IF NOT EXISTS studentData2024(

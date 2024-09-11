@@ -190,7 +190,7 @@ useEffect(() => {
         {loading && <p className="text-blue-500">Loading...</p>}
         {error && <p className="text-red-500">{error}</p>}
         {data.length > 0 && (
-          <div className="overflow-x-auto">
+          <div className="overflow-scroll">
             <table className="min-w-full divide-y divide-gray-200 bg-white shadow-md rounded-lg">
               <thead className="bg-gray-50">
                 <tr>
@@ -199,7 +199,7 @@ useEffect(() => {
                     'Program Type', 'Name', 'Father\'s Name', 'Mother\'s Name', 'Gender', 'Address', 'City',
                     'State', 'Pincode', 'Country', 'Contact Number (Student)', 'Parent Contact Number',
                     'Email ID', 'Email ID (Parent)', 'Aadhar', 'ABCID', 'Date of Birth', 'Registration Date',
-                    'Entry Type'
+                    'Entry Type','Status'
                   ].map(header => (
                     <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {header}
@@ -209,7 +209,7 @@ useEffect(() => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {data.map((item) => (
-                  <tr key={item.admission_number}>
+                  <tr key={item.admission_number} className={item.status == 'still' ? 'text-black' : 'text-red-600'}>
                     <td className="px-6 py-4 whitespace-nowrap">{item.UID}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.admission_number}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.admission_category}</td>
@@ -235,6 +235,7 @@ useEffect(() => {
                     <td className="px-6 py-4 whitespace-nowrap">{item.date_of_birth}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.registration_date}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.entry_type}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
                   </tr>
                 ))}
               </tbody>

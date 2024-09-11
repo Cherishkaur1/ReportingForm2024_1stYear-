@@ -71,6 +71,9 @@ export default function DropDown({ label, name, value, required, handleFormData,
             const cities = City.getCitiesOfState(code).map((val)=>val.name);
             setOptions(cities);
         }
+        else if(name == 'status'){
+            setOptions(["still" , "left"]);
+        }
     },[dependentData]);
 
     

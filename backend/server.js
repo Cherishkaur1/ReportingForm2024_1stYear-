@@ -15,6 +15,10 @@ const { readCSV, insertOrUpdateData, fetchDataByAdmissionNumber } = require('./m
 app.post('/',createAdmission);
 app.get('/:admission_number',getAdmission);
 app.put('/:admission_number',updateAdmission);
+// app.put('/:admission_number',(req,res)=>{
+//     console.log("LOL");
+//     res.status(200).send("No Data")
+// });
 app.delete('/:admission_number',deleteAdmission);
 app.get('/check/:admission_number',isAdmissionNumberUnique)
 
@@ -29,6 +33,7 @@ app.get('/checkData/:regNo',async (req,res,next)=>{
     const data = await fetchDataByAdmissionNumber(reg);
     res.send(data);
 })
+
 app.get('/getData/getAdmissionData',getAdmissionData);
 
 app.get('/SchoolData/getAllSchoolName',getAllSchool);
