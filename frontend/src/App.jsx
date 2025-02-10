@@ -16,6 +16,8 @@ function App() {
     console.log(selectedOption);
   },[selectedOption])
 
+// This is my comment 
+
   return (
     <div className='w-[100vw] h-[100vh]'>
       <NavBar setOption = {setSelectedOption} selectedOption={selectedOption}/>
